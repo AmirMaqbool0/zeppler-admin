@@ -12,7 +12,7 @@ const Sidebar = () => {
 
     <div className="sidebar-links">
      
-    <NavLink to={'/dashboard'} style={{textDecoration:'none'}}> <div className="sidebar-link">
+    <NavLink to={'/'} style={{textDecoration:'none'}}> <div className="sidebar-link">
       <LayoutDashboard color='white' />
         <span>Dashboard</span>
       </div>

@@ -14,7 +14,7 @@ const Routing = () => {
  <div style={{display:'flex'}}>
    <Sidebar />
    <Routes>
-    <Route path='/dashboard' element={<DashBoard />} />
+    <Route path='/' element={<DashBoard />} />
     <Route path='/matches' element={<Matches />} />
     <Route path='/users' element={<Users />} />
     <Route path='/users/:id' element={<UserDetail />} />
