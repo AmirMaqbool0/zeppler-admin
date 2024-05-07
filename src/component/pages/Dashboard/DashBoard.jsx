@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import DashboardHeader from '../../DashboardHeader/DashboardHeader'
 import { Heart, HeartCrack, Users,CalendarClock } from 'lucide-react'
 import ActiveUserBox from '../../ActiveUserBox/ActiveUserBox'
+import {app} from '../../../firebase'
+import {getFirestore,getDocs,collection} from 'firebase/firestore'
 const DashBoard = () => {
+    const [users,setUsers] =useState([])
+    const db= getFirestore(app)
+
+    const getUsers = async() =>{
+        const collectionRef= collection(db,'users')
+          const result =getDocs(collectionRef)
+          const arr = (await result).docs.map((doc)=>(
+            {id:doc.id ,...doc.data()}
+          ))
+          setUsers(arr)
+    }
+    useEffect(()=>{
+        getUsers()
+    },[])
   return (
     <div className='dashboard-container'>
         <div className="dashboard-content">
@@ -70,8 +86,9 @@ const DashBoard = () => {
             </div>
             <div className="active-users">
                 {
-                    Array(7).fill().map((item,index)=>(
-                    <ActiveUserBox odd={index % 2 == 0} />
+                    users.map((item,index)=>(
+
+                    <ActiveUserBox odd={index % 2 == 0} userData={item} />
                     ))
                 }
             </div>

@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import DashboardHeader from "../../DashboardHeader/DashboardHeader";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import ActiveUserBox from "../../ActiveUserBox/ActiveUserBox";
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { app } from "../../../firebase";
+import { getDocs, collection, getFirestore, query, where, orderBy, startAt, endAt } from "firebase/firestore";
+
 const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const usersPerPage = 7;
 
   const handlePrevPage = () => {
@@ -22,13 +27,41 @@ const Users = () => {
 
   const renderUsers = () => {
     const startIndex = (currentPage - 1) * usersPerPage;
-    const endIndex = Math.min(startIndex + usersPerPage, 10);
+    const endIndex = Math.min(startIndex + usersPerPage, users.length);
 
-    return Array.from({ length: endIndex - startIndex }, (_, index) => (
-    <NavLink to={'/users/:id'} style={{textDecoration:'none'}}> <div>
-      <ActiveUserBox key={startIndex + index} odd={index % 2 === 0} />
-      </div> </NavLink>
+    return users.slice(startIndex, endIndex).map((item, index) => (
+      <NavLink to={`/users/${item.id}`} style={{ textDecoration: 'none' }} key={item.id}>
+        <div>
+          <ActiveUserBox odd={index % 2 === 0} userData={item} />
+        </div>
+      </NavLink>
     ));
+  };
+
+  const db = getFirestore(app);
+  const getUsers = async () => {
+    const collectionRef = collection(db, 'users');
+    const result = await getDocs(collectionRef);
+    const arr = result.docs.map((doc) => (
+      { id: doc.id, ...doc.data() }
+    ));
+    setUsers(arr);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    const filteredUsers = users.filter(user => {
+      const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+      return fullName.includes(searchQuery.toLowerCase());
+    });
+    setUsers(filteredUsers);
+  }, [searchQuery]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   return (
@@ -37,7 +70,7 @@ const Users = () => {
       <div className="users-top">
         <span>Users</span>
         <div className="users-top-search">
-          <input type="text" placeholder="Search..." />
+          <input type="text" placeholder="Search..." value={searchQuery} onChange={handleSearchChange} />
           <Search size={16} />
         </div>
       </div>
@@ -63,7 +96,7 @@ const Users = () => {
         <button onClick={handlePrevPage} disabled={currentPage === 1}><ChevronLeft /></button>
         <button className={currentPage === 1 ? "active" : ""} onClick={() => goToPage(1)}>1</button>
         <button className={currentPage === 2 ? "active" : ""} onClick={() => goToPage(2)}>2</button>
-        <button onClick={handleNextPage} disabled={currentPage === 2 / usersPerPage}><ChevronRight /></button>
+        <button onClick={handleNextPage} disabled={currentPage === Math.ceil(users.length / usersPerPage)}><ChevronRight /></button>
       </div>
     </div>
   );

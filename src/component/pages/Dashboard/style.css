@@ -61,6 +61,7 @@
     background: var(--white);
     padding: 10px;
     border-radius: 10px;
+    overflow: auto;
 }
 .active-user-heading span{
     font-size: 14px;
@@ -108,4 +109,5 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
+    
 }

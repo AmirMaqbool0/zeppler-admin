@@ -11,10 +11,10 @@ const Interviews = () => {
   const [date, setDate] = useState(null);
   const [upcoming, setUpcoming] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const totalInterviewUsers = 12; // Assuming you have 12 interview users in total
-  const totalPages = Math.ceil(totalInterviewUsers / 8); // Calculate total pages based on 8 users per page
+  const totalInterviewUsers = 12; 
+  const totalPages = Math.ceil(totalInterviewUsers / 8);
 
-  // Function to handle filter changes
+ 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
   };
