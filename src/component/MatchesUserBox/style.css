@@ -12,11 +12,13 @@
     font-size: 14px;
     font-weight: 400;
     color: var(--black);
+    width: 120px;
 }
 .matches-user-box-user{
     display: flex;
     gap: 5px;
     align-items: center;
+    width: 120px;
 }
 .matches-user-box-user img{
     width: 30px;
@@ -28,6 +30,7 @@
     font-size: 14px;
     font-weight: 400;
     color: var(--black);
+    width: 120px;
 }
 .odd-background {
     background-color: var(--white); 

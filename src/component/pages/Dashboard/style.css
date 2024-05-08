@@ -111,3 +111,8 @@
     gap: 3px;
     
 }
+.loader-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

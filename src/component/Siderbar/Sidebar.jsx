@@ -3,7 +3,14 @@ import {Power,ArrowRight,LayoutDashboard,Heart,Mail,CircleHelp,User, Users, Circ
 import Logo from '../../assests/logo.png'
 import {NavLink} from 'react-router-dom'
 import './style.css'
+import { app } from '../../firebase'
+import { getAuth, signOut } from 'firebase/auth'
+
 const Sidebar = () => {
+  const auth = getAuth(app)
+  const logOut = () =>{
+     signOut(auth)
+  }
   return (
     <div className='sidebar-container'>
     <div className="sidebar-logo">
@@ -49,7 +56,7 @@ const Sidebar = () => {
       </NavLink>
     </div>
    
-    <div className="side-bar-logout-btn">
+    <div className="side-bar-logout-btn" onClick={logOut}>
          <div className="sidebar-btn-left">
          <Power  color='white'/>
           <span>Logout</span>

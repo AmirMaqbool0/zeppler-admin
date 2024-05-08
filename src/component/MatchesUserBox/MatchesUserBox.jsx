@@ -1,25 +1,31 @@
-import React from 'react'
-import './style.css'
-import UserLogo from '../../assests/userlogo.png'
-import { Ellipsis } from 'lucide-react'
-const MatchesUserBox = ({odd}) => {
+import React from 'react';
+import './style.css';
+import { Ellipsis } from 'lucide-react';
+
+const MatchesUserBox = ({ odd, userData }) => {
+  // Check if userData and its nested properties are defined before accessing them
+  const locationShortened1 = userData?.user1?.location ? userData.user1.location.slice(0, 3) : '';
+  const locationDisplay1 = userData?.user1?.location && userData.user1.location.length > 10 ? `${locationShortened1}...` : locationShortened1;
+
+  const locationShortened2 = userData?.user2?.location ? userData.user2.location.slice(0, 10) : '';
+  const locationDisplay2 = userData?.user2?.location && userData.user2.location.length > 10 ? `${locationShortened2}...` : locationShortened2;
+
   return (
     <div className={`matches-user-box-container ${odd ? 'odd-background' : 'even-background'}`}>
-        <span>001</span>
-        <div className="matches-user-box-user">
-            <img src={UserLogo} alt="" />
-            <span>Amir</span>
-        </div>
-        <div className="matches-user-box-user">
-            <img src={UserLogo} alt="" />
-            <span>Amir</span>
-        </div>
-        <span>Single</span>
-        <span>Los Angeles</span>
-        <span> <Ellipsis /> </span>
-        
+      <span>001</span>
+      <div className="matches-user-box-user">
+        <img src={userData?.user1?.profileImage} alt="" />
+        <span>{userData?.user1?.firstName}</span>
+      </div>
+      <div className="matches-user-box-user">
+        <img src={userData?.user2?.profileImage} alt="" />
+        <span>{userData?.user2?.firstName}</span>
+      </div>
+      <span>Single</span>
+      <span>{locationDisplay1}</span>
+      <span style={{width:'auto'}}><Ellipsis /></span>
     </div>
-  )
-}
+  );
+};
 
-export default MatchesUserBox
+export default MatchesUserBox;

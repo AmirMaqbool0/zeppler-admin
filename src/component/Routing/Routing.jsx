@@ -8,6 +8,7 @@ import UserDetail from '../pages/UserDetail/UserDetail'
 import Payment from '../pages/Payment/Payment'
 import Settings from '../pages/Settings/Settings'
 import Interviews from '../pages/Interviews/Interviews'
+import Login from '../pages/Login/Login'
 const Routing = () => {
   return (
  <BrowserRouter>

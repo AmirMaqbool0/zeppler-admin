@@ -61,11 +61,13 @@
     background: var(--lightblue);
     display: flex;
     justify-content: space-between;
+  
 }
 .matches-users-box-header span{
     font-size: 14px;
     font-weight: 400;
     color: var(--gray);
+    width: 120px;
 }
 .matches-users{
     display: flex;

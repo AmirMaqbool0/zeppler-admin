@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import Logo from "../../../assests/userlogo.png";
 import CoverBackground from "../../../assests/cover.png";
@@ -11,8 +11,24 @@ import {
   Ruler,
   Weight,
   BookUser,
+  User,
 } from "lucide-react";
+import { app } from "../../../firebase";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { useParams } from "react-router-dom";
+
 const UserDetail = () => {
+  const [user,setUser] =useState({})
+ const {id} = useParams()
+ const db =getFirestore(app)
+ useEffect(()=>{
+   getUser()
+ },[])
+  const getUser = async () =>{
+    const docRef = doc(db,'users',id)
+    const result = await getDoc(docRef)
+    setUser(result.data())
+  }
   return (
     <div className="user-detail-container">
       <DashboardHeader />
@@ -20,14 +36,14 @@ const UserDetail = () => {
         <div className="user-profile-card">
           <div className="user-profile-container">
             <div className="user-profile-cover">
-              <img src={CoverBackground} alt="" />
+              <img src={user?.images?.[0]} alt="" />
             </div>
             <div className="user-profile-logo">
-              <img src={Logo} alt="" />
+              <img src={user?.profileImage} alt="" />
             </div>
             <div className="user-profile-text">
-              <span>Marilyn Levin, 25</span>
-              <p>Los Angeles</p>
+              <span>{user?.firstName} {user?.lastName}</span>
+              <p>{user?.location}</p>
             </div>
           </div>
         </div>
@@ -35,14 +51,14 @@ const UserDetail = () => {
         <div className="user-detail-box">
           <div className="user-about-container">
             <div className="user-about-heading">
-              <span>About Marilyn</span>
+              <span>About {user?.firstName}</span>
             </div>
             <div className="user-about-content">
               <div className="user-info-box">
                 <Cake color="#172542" />
                 <div className="info-box-text">
                   <span>Date of Birth</span>
-                  <p>01 Jun 1999</p>
+                  <p>{user?.dob}</p>
                 </div>
               </div>
 
@@ -50,7 +66,7 @@ const UserDetail = () => {
                 <Shield color="#172542" />
                 <div className="info-box-text">
                   <span>Gender</span>
-                  <p>Female</p>
+                  <p>{user?.gender}</p>
                 </div>
               </div>
 
@@ -66,7 +82,7 @@ const UserDetail = () => {
                 <Ruler color="#172542" />
                 <div className="info-box-text">
                   <span>Height</span>
-                  <p>167 cm</p>
+                  <p>{user?.height} cm</p>
                 </div>
               </div>
 
@@ -74,7 +90,7 @@ const UserDetail = () => {
                 <Weight color="#172542" />
                 <div className="info-box-text">
                   <span>Weight</span>
-                  <p>3 lbs</p>
+                  <p>{user?.weight} lbs</p>
                 </div>
               </div>
 
@@ -82,19 +98,16 @@ const UserDetail = () => {
                 <MapPin color="#172542" />
                 <div className="info-box-text">
                   <span>Location</span>
-                  <p>Los Angeles</p>
+                  <p>{user?.location}</p>
                 </div>
               </div>
 
               <div className="user-bio-box">
-                <BookUser color="#172542" size={70} />
+                <BookUser color="#172542"  />
                 <div className="info-box-text">
                   <span>Bio</span>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  {user?.bio}
                   </p>
                 </div>
               </div>
