@@ -2,6 +2,7 @@ import React from 'react';
 import './style.css';
 import UserLogo from '../../assests/userlogo.png';
 import { Eye } from 'lucide-react';
+import NotFound from '../../assests/notfound.png'
 
 const ActiveUserBox = ({ odd, userData }) => {
   const locationShortened = userData?.location ? userData.location.slice(0, 10) : '';
@@ -13,7 +14,7 @@ const ActiveUserBox = ({ odd, userData }) => {
       <div className="active-user-left">
         <span>001</span>
         <div className="left-user">
-          <img src={userData?.profileImage} alt="" />
+          <img src={userData?.profileImage ? userData?.profileImage : NotFound} alt="" />
           <span>{userData?.firstName}</span>
         </div>
       </div>

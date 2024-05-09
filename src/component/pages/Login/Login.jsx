@@ -7,10 +7,20 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const auth = getAuth(app);
 
   const login = () => {
-    signInWithEmailAndPassword(auth, email, password);
+    setErrorMessage(''); // Reset error message
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        // Login successful
+      })
+      .catch((error) => {
+        // Handle login errors
+        setErrorMessage('Incorrect email or password. Please try again.'); // Set error message
+      });
   };
 
   return (
@@ -30,16 +40,23 @@ const Login = () => {
               <div className="login-inputs">
                 <div className="input-box">
                   <Mail />
-                  <input type="text" placeholder='Email'
-                  value={email} onChange={(e) => setEmail(e.target.value)}
+                  <input
+                    type="text"
+                    placeholder='Email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="input-box">
                   <Lock />
-                  <input type="password" placeholder='Password'
-                  value={password} onChange={(e) => setPassword(e.target.value)}
+                  <input
+                    type="password"
+                    placeholder='Password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <button onClick={login}>Login</button>
               </div>
             </div>

@@ -6,14 +6,15 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { app } from '../../../firebase';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import Skeleton from 'react-loading-skeleton';
-
+import {useDispatch} from 'react-redux'
+import { setMatches } from '../../../redux/MatchesUser';
 const Matches = () => {
   const [filter, setFilter] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [userPairs, setUserPairs] = useState([]);
   const [loading, setLoading] = useState(true);
   const pairsPerPage = 8;
-
+   const dispatch = useDispatch()
   const handleFilterChange = (selectedFilter) => {
     setFilter(selectedFilter);
   };
@@ -44,6 +45,8 @@ const Matches = () => {
       }
       setUserPairs(pairs);
       setLoading(false);
+      dispatch(setMatches(pairs.length))
+    
     } catch (error) {
       console.error('Error fetching users:', error);
       setLoading(false);
@@ -63,7 +66,7 @@ const Matches = () => {
   const indexOfLastPair = currentPage * pairsPerPage;
   const indexOfFirstPair = indexOfLastPair - pairsPerPage;
   const currentPairs = userPairs.slice(indexOfFirstPair, indexOfLastPair);
-
+  
   return (
     <div className="matches-container">
       <DashboardHeader />

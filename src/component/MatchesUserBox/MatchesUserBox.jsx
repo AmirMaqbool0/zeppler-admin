@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 import { Ellipsis } from 'lucide-react';
-
+import NotFound from '../../assests/notfound.png'
 const MatchesUserBox = ({ odd, userData }) => {
   // Check if userData and its nested properties are defined before accessing them
   const locationShortened1 = userData?.user1?.location ? userData.user1.location.slice(0, 3) : '';
@@ -14,11 +14,11 @@ const MatchesUserBox = ({ odd, userData }) => {
     <div className={`matches-user-box-container ${odd ? 'odd-background' : 'even-background'}`}>
       <span>001</span>
       <div className="matches-user-box-user">
-        <img src={userData?.user1?.profileImage} alt="" />
+        <img src={userData?.user1?.profileImage ? userData?.user1?.profileImage : NotFound} alt="" />
         <span>{userData?.user1?.firstName}</span>
       </div>
       <div className="matches-user-box-user">
-        <img src={userData?.user2?.profileImage} alt="" />
+        <img src={userData?.user2?.profileImage ? userData?.user2?.profileImage :NotFound } alt="" />
         <span>{userData?.user2?.firstName}</span>
       </div>
       <span>Single</span>

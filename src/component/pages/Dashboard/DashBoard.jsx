@@ -8,6 +8,8 @@ import { getFirestore, getDocs, collection } from "firebase/firestore";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const DashBoard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,6 +30,8 @@ const DashBoard = () => {
     getUsers();
   }, []);
   const totalUsers= users.length
+  const matchesLength = useSelector((state)=>state.matches.matches)
+  console.log(matchesLength)
   return (
     <div className="dashboard-container">
       <div className="dashboard-content">
@@ -58,7 +62,7 @@ const DashBoard = () => {
               <Heart color="#FFB049" size={30} />
             </div>
             <div className="stats-box-text">
-              <h1>63</h1>
+              <h1>{matchesLength}</h1>
               <span>Total Matches</span>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import Logo from "../../../assests/userlogo.png";
+import NotFound from "../../../assests/notfound.png";
 import CoverBackground from "../../../assests/cover.png";
 import DashboardHeader from "../../DashboardHeader/DashboardHeader";
 import {
@@ -36,10 +36,10 @@ const UserDetail = () => {
         <div className="user-profile-card">
           <div className="user-profile-container">
             <div className="user-profile-cover">
-              <img src={user?.images?.[0]} alt="" />
+              <img src={user?.images?.[0] ? user?.images?.[0] :NotFound } alt="" />
             </div>
             <div className="user-profile-logo">
-              <img src={user?.profileImage} alt="" />
+              <img src={user?.profileImage ? user?.profileImage : NotFound } alt="" />
             </div>
             <div className="user-profile-text">
               <span>{user?.firstName} {user?.lastName}</span>
